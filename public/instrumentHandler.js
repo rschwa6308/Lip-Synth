@@ -28,8 +28,9 @@ document.addEventListener("DOMContentLoaded", function(){
         if (!audioPause) {
             val = obj.detail
             // console.log(val)
-            note = intToNote(Math.floor(8*val), currentScale, currentScaleOffset)
-            if (val != null && val < 0.1) {
+            threshold = 0.1
+            note = intToNote(Math.floor(8*(val-threshold)/(1-threshold)), currentScale, currentScaleOffset)
+            if (val != null && val < threshold) {
                 inst.stopNote()
             } else {
                 if (note != inst.currentNote) inst.playNote(note)

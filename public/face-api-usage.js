@@ -1,4 +1,19 @@
+mouthHeightConvolutions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+getMouthHeight = () => {
+    sum = 0
+    mouthHeightConvolutions.forEach(element => {
+        sum += element
+    });
+    return sum / mouthHeightConvolutions.length
+}
+updateMouthHeight = (newHeight) => {
+    mouthHeightConvolutions.shift()
+    mouthHeightConvolutions.push(newHeight)
+    return getMouthHeight()
+}
+
 function notifyFaceChanged(mouthHeight) {
+    updateMouthHeight(mouthHeight)
     const event = new CustomEvent("faceChanged", {
         detail: mouthHeight
     })
