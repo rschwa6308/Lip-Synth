@@ -106,4 +106,7 @@ dist
 # Environment Variables
 .env
 
-public/models/
+# Tonejs Samples https://github.com/nbrosowsky/tonejs-instruments
+samples/
+
+# public/models/
