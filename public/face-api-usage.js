@@ -30,7 +30,7 @@ async function analyzeFrame() {
 
         // compute relevant face metrics
         faceHeight = result.detection.box.height
-        console.log(`faceHeight: ${faceHeight}`)
+        // console.log(`faceHeight: ${faceHeight}`)
 
         mouth = result.landmarks.getMouth()
         // console.log("mouth:", mouth)
@@ -39,9 +39,11 @@ async function analyzeFrame() {
         topLip = mouth.slice(7, 12)
 
         mouthHeight = Math.max(...topLip.map(p => p.y)) - Math.min(...bottomLip.map(p => p.y))
-        console.log(`mouthHeight: ${mouthHeight}`)
+        // console.log(`mouthHeight: ${mouthHeight}`)
 
         mouthHeightNormalized = mouthHeight / faceHeight
+        console.log(`mouthHeightNormalized: ${mouthHeightNormalized}`)
+        
         notifyFaceChanged(mouthHeightNormalized)
 
         // additional methods of `results.landmarks`:
