@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta charset="UTF-8">
-<title>Webcam Tester</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="">
-<script src="webcam.js"></script>
-<link rel="stylesheet" href="clear.css">
-<link rel="stylesheet" href="main.css">
-<body>
-<video autoplay="true" id="videoElement">
-	No Video
-</video>
-</body>
+	<meta charset="UTF-8">
+	<title>Webcam Tester</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="stylesheet" href="">
+	<link rel="stylesheet" href="clear.css">
+	<link rel="stylesheet" href="main.css">
+	
+	<script src="webcam.js"></script>
+	<script src="face-api.js"></script>
+	<script src="face-api-usage.js"></script>
+
+	<body>
+		<!-- <img id="testImg" src="images/example.jpg" /> -->
+		<div>
+			<video autoplay="true" id="videoElement" style="position: absolute">
+				No Video
+			</video>
+			<canvas id="overlay" style="position: absolute"/>
+		</div>
+	</body>
 </html>
