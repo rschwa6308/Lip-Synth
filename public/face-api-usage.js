@@ -5,6 +5,7 @@ function notifyFaceChanged(mouthHeight) {
     document.body.dispatchEvent(event)
 }
 
+const MAX_MOUTH_HEIGHT = 0.20       // 20% of face height seems to be maximum
 
 async function analyzeFrame() {
     const frame = document.getElementById("videoElement")
@@ -35,13 +36,17 @@ async function analyzeFrame() {
         mouth = result.landmarks.getMouth()
         // console.log("mouth:", mouth)
 
-        bottomLip = mouth.slice(1, 6)
-        topLip = mouth.slice(7, 12)
+        bottomLipBottom = mouth.slice(1, 6)
+        bottomLipTop = mouth.slice(14, 17)
+        topLipTop = mouth.slice(7, 12)
+        topLipBottom = mouth.slice(17, 20)
 
-        mouthHeight = Math.max(...topLip.map(p => p.y)) - Math.min(...bottomLip.map(p => p.y))
+        mouthHeight = Math.max(...topLipBottom.map(p => p.y)) - Math.min(...bottomLipTop.map(p => p.y))
+        mouthHeight = Math.abs(mouthHeight)
         // console.log(`mouthHeight: ${mouthHeight}`)
 
-        mouthHeightNormalized = mouthHeight / faceHeight
+        mouthHeightNormalized = (mouthHeight / faceHeight) / MAX_MOUTH_HEIGHT
+        mouthHeightNormalized = Math.min(mouthHeightNormalized, 1.0)    // clamp to [0, 1]
         console.log(`mouthHeightNormalized: ${mouthHeightNormalized}`)
         
         notifyFaceChanged(mouthHeightNormalized)
