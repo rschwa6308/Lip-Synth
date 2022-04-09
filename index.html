@@ -18,6 +18,18 @@
 				No Video
 			</video>
 			<canvas id="overlay" style="position: absolute"/>
+			<script>
+				var canvas = document.getElementById("overlay");
+				var context = canvas.getContext('2d');
+		  
+				// translate context to center of canvas
+				context.translate(canvas.width / 2, canvas.height / 2);
+		  
+				context.font = '30pt Calibri';
+				context.textAlign = 'center';
+				context.fillStyle = 'red';
+				context.fillText('Loading...', 0, 0);
+			</script>
 		</div>
 	</body>
 </html>
