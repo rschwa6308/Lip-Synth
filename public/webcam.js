@@ -1,7 +1,7 @@
 // Delay collection of video element until after its been loaded
 document.addEventListener("DOMContentLoaded", function(){
     videoElem = document.getElementById("videoElement");
-    console.log(videoElem)
+    // console.log(videoElem)
     getMediaDevice(videoElem)
 });
 
