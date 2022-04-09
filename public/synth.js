@@ -1,20 +1,22 @@
 // General Classes and Functions
 noteLetters = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-intToNote = (val, scale) => {
+intToNote = (val, scale, offsets) => {
     len = scale.length
     note = scale[((val%len)+len)%len]
-    return note + (4 + Math.floor((val)/len))
+    return note + (3 + Math.floor((val)/len) + offsets[((val%len)+len)%len])
 }
 
 function getMusicalKey(startNote, isMajor) {
     steps = isMajor ? [2,2,1,2,2,2] : [2,1,2,2,1,2]
     index = noteLetters.findIndex((elem) => elem == startNote)
     notes = [startNote]
+    offsets = [0]
     steps.forEach(step => {
         index += step
         notes.push(noteLetters[index % noteLetters.length])
+        offsets.push(Math.floor(index/noteLetters.length))
     });
-    return notes
+    return [notes, offsets]
 }
 
 class Instrument {
