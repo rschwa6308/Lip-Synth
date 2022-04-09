@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const { get } = require('request')
+const Tone = require('Tone')
 
 // initialize the express app
 const app = express()
@@ -11,6 +12,7 @@ app.use(express.urlencoded({ extended: true }))
 
 // point server to static resources
 app.use(express.static(path.join(__dirname, './public')))
+app.use(express.static(path.join(__dirname, './samples')))
 
 // define url paths
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, "index.html")))
