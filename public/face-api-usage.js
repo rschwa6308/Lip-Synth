@@ -1,6 +1,6 @@
 function notifyFaceChanged(mouthHeight) {
     const event = new CustomEvent("faceChanged", {
-        mouthHeight: mouthHeight
+        detail: mouthHeight
     })
     document.body.dispatchEvent(event)
 }

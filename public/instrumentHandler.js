@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById('noteIn').onchange = function() {
         noteInt = document.getElementById("noteIn").value
         console.log("Note Changed to "+intToNote(noteInt, currentScale, currentScaleOffset))
-        inst.playNote(intToNote(noteInt, currentScale, currentScaleOffset), 1)
+        inst.playNote(intToNote(noteInt, currentScale, currentScaleOffset))
     }
     // Stop Note Action
     document.getElementById('stopNote').onclick = function() {
@@ -23,6 +23,16 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById('scaleType').onclick = reloadKey
     // Change Instrument
     document.getElementById('instrument').onclick = reloadInst
+    document.body.addEventListener("faceChanged", (obj) => {
+        val = obj.detail
+        console.log(val)
+        note = intToNote(Math.floor(16*val), currentScale, currentScaleOffset)
+        if (val != null && val < 0.2) {
+            inst.stopNote()
+        } else {
+            if (note != inst.currentNote) inst.playNote(note)
+        }
+    })
 });
 
 function reloadKey() {
