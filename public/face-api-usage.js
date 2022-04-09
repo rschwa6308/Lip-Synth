@@ -47,7 +47,7 @@ async function analyzeFrame() {
 
         mouthHeightNormalized = (mouthHeight / faceHeight) / MAX_MOUTH_HEIGHT
         mouthHeightNormalized = Math.min(mouthHeightNormalized, 1.0)    // clamp to [0, 1]
-        console.log(`mouthHeightNormalized: ${mouthHeightNormalized}`)
+        // console.log(`mouthHeightNormalized: ${mouthHeightNormalized}`)
         
         notifyFaceChanged(mouthHeightNormalized)
 
