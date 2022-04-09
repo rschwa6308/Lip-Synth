@@ -26,8 +26,8 @@ document.addEventListener("DOMContentLoaded", function(){
     document.body.addEventListener("faceChanged", (obj) => {
         val = obj.detail
         console.log(val)
-        note = intToNote(Math.floor(16*val), currentScale, currentScaleOffset)
-        if (val != null && val < 0.2) {
+        note = intToNote(Math.floor(8*val), currentScale, currentScaleOffset)
+        if (val != null && val < 0.1) {
             inst.stopNote()
         } else {
             if (note != inst.currentNote) inst.playNote(note)
