@@ -41,7 +41,7 @@ const spotifyApi = new SpotifyWebApi();
 
 // Sets values used to authenticate user
 const client_id = '23053cd4642e4b9ba14357dc630df7c1';
-const redirect_uri = 'http://localhost:3000';
+const redirect_uri = 'https://www.lipsynth.com';
 const state = "1111111111111111";
 localStorage.setItem("stateKey", state);
 const scope = 'user-read-private user-read-email app-remote-control streaming user-modify-playback-state';
