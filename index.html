@@ -14,7 +14,7 @@
 <body>
 	<div class="container d-flex flex-column" style="height: 100vh;">
 		<div id="videoBox" class="container text-center">
-			<video autoplay="true" id="videoElement"alt="No Video" style="position: absolute">
+			<video autoplay="true" id="videoElement" alt="No Video" style="position: absolute">
 			</video>
 			<canvas id="overlay" style="position: absolute"/>
 			<script>
@@ -78,6 +78,7 @@
 				<option value="play">Play</option>
 				<option value="pause">Pause</option>
 			</select>
+			<button id="flipWebcam" onclick="flipWebcam()">Flip Camera</button>
 		</div>
 	</div>
 </body>

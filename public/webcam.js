@@ -20,3 +20,7 @@ function getMediaDevice (applyTo) {
             })
     }
 }
+
+function flipWebcam() {
+    document.getElementById("videoElement").style.transform = "scaleX(-1)";
+}

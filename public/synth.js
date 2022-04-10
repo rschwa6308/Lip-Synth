@@ -5,6 +5,10 @@ intToNote = (val, scale, offsets) => {
     note = scale[((val%len)+len)%len]
     return note + (3 + Math.floor((val)/len) + offsets[((val%len)+len)%len])
 }
+noteToNorm = (note, scale) => {
+    loc = scale.findIndex((elem) => note == elem)
+    return ((loc/scale.length)*(1-VALUE_THRESHOLD) + CHANGE_THRESHOLD)
+}
 
 function getMusicalKey(startNote, isMajor) {
     steps = isMajor ? [2,2,1,2,2,2] : [2,1,2,2,1,2]
@@ -40,6 +44,7 @@ class Instrument {
 
     startNote(note) {
         if (this.isReady) {
+            console.log(note)
             this.inst.triggerAttack(note)
             this.isPlaying = true
         }
@@ -52,6 +57,7 @@ class Instrument {
             if (!this.isPlaying) {
                 this.startNote(note)
             } else {
+                console.log(note)
                 if (this.inst.setNote) {
                     this.inst.setNote(note)
                 } else {

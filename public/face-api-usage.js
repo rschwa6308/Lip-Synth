@@ -1,23 +1,44 @@
-mouthHeightConvolutions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-getMouthHeight = () => {
-    sum = 0
-    mouthHeightConvolutions.forEach(element => {
-        sum += element
-    });
-    return sum / mouthHeightConvolutions.length
-}
-updateMouthHeight = (newHeight) => {
-    mouthHeightConvolutions.shift()
-    mouthHeightConvolutions.push(newHeight)
-    return getMouthHeight()
-}
+// Necessary Variables
+lastHeights = [0, 0]
+noteToIndicate = null
 
 function notifyFaceChanged(mouthHeight) {
-    updateMouthHeight(mouthHeight)
     const event = new CustomEvent("faceChanged", {
-        detail: mouthHeight
+        detail: {value: mouthHeight, change: mouthHeight - lastHeights[0]}
     })
     document.body.dispatchEvent(event)
+    lastHeights.shift()
+    lastHeights.push(mouthHeight)
+}
+
+function drawNote(canvas, note, face, faceUnnorm) {
+    ctx = canvas.getContext("2d")
+
+    pts = face.landmarks.getMouth()
+    
+    // ctx.beginPath()
+    // ctx.moveTo(pts[3].x, pts[3].y)
+    // ctx.lineTo(pts[9].x, pts[9].y)
+    // ctx.strokeStyle = 'green'
+    // ctx.lineWidth=3
+    // ctx.closePath()
+    // ctx.stroke()
+
+    midPt = {x: pts[18].x - (pts[18].x - pts[14].x)/2, y: pts[18].y - (pts[18].y - pts[14].y)/2}
+    angle = Math.atan((pts[9].y - pts[3].y)/(pts[9].x - pts[3].x))
+    mouthWidth = Math.sqrt((pts[16].y - pts[0].y)**2 + (pts[16].x - pts[0].x)**2)/2
+    mouthHeight = Math.sqrt((pts[18].y - pts[14].y)**2 + (pts[18].x - pts[14].x)**2)/2
+    if (note && noteToNorm(note, currentScale)) {
+        faceHeight = face.detection.box.height
+        noteHeight = noteToNorm(note, currentScale) * MAX_MOUTH_HEIGHT * faceHeight
+
+        ctx.beginPath()
+        ctx.ellipse(midPt.x, midPt.y, noteHeight/2, mouthWidth, angle, 0, 2*Math.PI)
+        ctx.strokeStyle = 'green'
+        ctx.lineWidth=3
+        ctx.closePath()
+        ctx.stroke()
+    }
 }
 
 const MAX_MOUTH_HEIGHT = 0.20       // 20% of face height seems to be maximum
@@ -42,6 +63,7 @@ async function analyzeFrame() {
         // draw detections onto canvas
         faceapi.draw.drawDetections(canvas, resizedResult)
         faceapi.draw.drawFaceLandmarks(canvas, resizedResult)
+        drawNote(canvas, noteToIndicate, resizedResult)
         
 
         // compute relevant face metrics

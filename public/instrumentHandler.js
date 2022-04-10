@@ -5,6 +5,10 @@ currentScaleOffset = null;
 inst = null
 audioPause = false
 
+NUM_NOTES_ON_FACE = 8
+VALUE_THRESHOLD = 0.1
+CHANGE_THRESHOLD = 0.05
+
 document.addEventListener("DOMContentLoaded", function(){
     reloadInst()
     reloadKey()
@@ -26,14 +30,17 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById('instrument').onchange = reloadInst
     document.body.addEventListener("faceChanged", (obj) => {
         if (!audioPause) {
-            val = obj.detail
+            detail = obj.detail
             // console.log(val)
-            threshold = 0.1
-            note = intToNote(Math.floor(8*(val-threshold)/(1-threshold)), currentScale, currentScaleOffset)
-            if (val != null && val < threshold) {
-                inst.stopNote()
-            } else {
-                if (note != inst.currentNote) inst.playNote(note)
+            if (Math.abs(detail.change) <= CHANGE_THRESHOLD) {
+                note = intToNote(Math.floor((NUM_NOTES_ON_FACE-1)*(detail.value-VALUE_THRESHOLD)/(1-VALUE_THRESHOLD)), currentScale, currentScaleOffset)
+                if (detail.value != null && detail.value < VALUE_THRESHOLD) {
+                    inst.stopNote()
+                } else {
+                    if (note != inst.currentNote) {
+                        inst.playNote(note)
+                    }
+                }
             }
         }
     })
