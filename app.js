@@ -7,7 +7,6 @@ const { waitForDebugger } = require('inspector');
 
 // initialize environment variables
 dotenv.config();
-const Tone = require('Tone')
 
 // initialize the express app
 const app = express()
