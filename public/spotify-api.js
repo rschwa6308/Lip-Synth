@@ -201,23 +201,27 @@ document.getElementById("playSong").onclick = async function () {
         alert("Please enter a song name");
         return;
     }
-    spotifyApi.queue("spotify:track:" + song_id );
-    var right_song = false;
-    while(!right_song){
-        promise = spotifyApi.skipToNext();
 
-        await promise;
+    document.getElementById("scaleRoot").selectedIndex = song_data.track.key;
+    document.getElementById("scaleRoot").onchange();
 
-        promise = spotifyApi.getMyCurrentPlayingTrack().then(
-            function(data) {
-                if(data.item.id == song_id){
-                    right_song = true;
-                }
-            }
-        );
-        await promise;
-    }
+    // spotifyApi.queue("spotify:track:" + song_id );
+    // var right_song = false;
+    // while(!right_song){
+    //     promise = spotifyApi.skipToNext();
+
+    //     await promise;
+
+    //     promise = spotifyApi.getMyCurrentPlayingTrack().then(
+    //         function(data) {
+    //             if(data.item.id == song_id){
+    //                 right_song = true;
+    //             }
+    //         }
+    //     );
+    //     await promise;
+    // }
     
-    spotifyApi.play();
+    // spotifyApi.play();
     update_note();
 }
