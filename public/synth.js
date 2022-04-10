@@ -7,7 +7,7 @@ intToNote = (val, scale, offsets) => {
 }
 noteToNorm = (note, scale) => {
     loc = scale.findIndex((elem) => note == elem)
-    return ((loc/scale.length)*(1-VALUE_THRESHOLD) + CHANGE_THRESHOLD)
+    return (((loc+0.5)/scale.length)*(1-VALUE_THRESHOLD) + CHANGE_THRESHOLD)
 }
 
 function getMusicalKey(startNote, isMajor) {
