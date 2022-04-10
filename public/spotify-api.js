@@ -175,6 +175,7 @@ async function update_note(){
         console.log(new_notes[i]);
         noteToIndicate = new_notes[i];
         document.getElementById("next_note").innerHTML = new_notes[i+1];
+        nextNoteToIndicate = new_notes[i+1];
         while(cur_duration > 0){
             p = new Promise(resolve => setTimeout(resolve, 10));
             await p;

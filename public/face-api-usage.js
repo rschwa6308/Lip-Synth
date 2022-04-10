@@ -1,6 +1,7 @@
 // Necessary Variables
 lastHeights = [0, 0]
 noteToIndicate = null
+nextNoteToIndicate = null
 
 function notifyFaceChanged(mouthHeight) {
     const event = new CustomEvent("faceChanged", {
@@ -11,7 +12,7 @@ function notifyFaceChanged(mouthHeight) {
     lastHeights.push(mouthHeight)
 }
 
-function drawNote(canvas, note, face, faceUnnorm) {
+function drawNote(canvas, note, face, faceUnnorm, isDash=false, color="green", thicc=3) {
     ctx = canvas.getContext("2d")
 
     pts = face.landmarks.getMouth()
@@ -34,8 +35,13 @@ function drawNote(canvas, note, face, faceUnnorm) {
 
         ctx.beginPath()
         ctx.ellipse(midPt.x, midPt.y, Math.abs(noteHeight/2), mouthWidth, angle, 0, 2*Math.PI)
-        ctx.strokeStyle = 'green'
-        ctx.lineWidth=3
+        ctx.strokeStyle = color
+        ctx.lineWidth=thicc
+        if(isDash){
+            ctx.setLineDash([5, 5])
+        } else{
+            ctx.setLineDash([])
+        }
         ctx.closePath()
         ctx.stroke()
     }
@@ -63,6 +69,11 @@ async function analyzeFrame() {
         // draw detections onto canvas
         //faceapi.draw.drawDetections(canvas, resizedResult)
         //faceapi.draw.drawFaceLandmarks(canvas, resizedResult)
+
+        if(isNoteInScale(nextNoteToIndicate, currentScale)) {
+            drawNote(canvas, nextNoteToIndicate, resizedResult, true, "cyan", 2)
+        }
+
         if(isNoteInScale(noteToIndicate, currentScale)) {
             drawNote(canvas, noteToIndicate, resizedResult)
         }
