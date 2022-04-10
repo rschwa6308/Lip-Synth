@@ -67,11 +67,16 @@ queryString = queryString.replaceAt(0, '?');
 const urlsearch = new URLSearchParams(queryString);
 spotifyApi.setAccessToken(urlsearch.get('access_token'));
 
+console.log(spotifyApi.getAccessToken());
+
+if(spotifyApi.getAccessToken() != null){
+    document.getElementById("spotify").innerHTML = "Re-Login";
+}
+
 async function GetSongId(song_name){
     var id = null;
     promise = spotifyApi.searchTracks(song_name, {limit: 5}).then(
         function(data){
-            console.log(data.tracks.items[0].id);
             id = data.tracks.items[0].id;
             song_id = id;
         },
@@ -81,16 +86,9 @@ async function GetSongId(song_name){
     );
 
     await promise
+    promise = new Promise(resolve => getData(id));
+    await promise
 
-    console.log(id);
-    getData(id);
-}
-
-// Gets desired song from user
-document.getElementById("submit_song").onclick = function () {
-    const song_name = document.getElementById("songName").value;
-    GetSongId(song_name);
-    
 }
 
 // Collects data from the Spotify API
@@ -107,8 +105,6 @@ async function getData(song) {
 
     // Waits for the request to finish
     await promise;
-
-    console.log(song_data.track.key);
 
     // Unwraps the data
     for(let i = 0; i < song_data.segments.length; i++){
@@ -133,6 +129,7 @@ async function getData(song) {
             data_durations.push(seg.duration);
         }
     }
+    return song_id
 }
 
 // Will return the next note and duration to be played given a timestamp
@@ -177,7 +174,6 @@ async function update_note(){
     for(let i = 0; i < new_timestamps.length-1; i++){
         var cur_duration = (new_timestamps[i+1] - new_timestamps[i]) ;
         document.getElementById("cur_note").innerHTML = new_notes[i];
-        console.log(new_notes[i]);
         noteToIndicate = new_notes[i];
         document.getElementById("next_note").innerHTML = new_notes[i+1];
         nextNoteToIndicate = new_notes[i+1];
@@ -199,8 +195,13 @@ async function get_key(){
 }
 
 document.getElementById("playSong").onclick = async function () {
+    const song_name = document.getElementById("songName").value;
+    GetSongId(song_name);
+    p = new Promise(resolve => setTimeout(resolve, 1000));
+    await p
+
     if(song_data == null){
-        alert("Please enter a song name");
+        alert("Please enter a song name or try re-logging in.");
         return;
     }
 
