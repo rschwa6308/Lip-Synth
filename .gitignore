@@ -103,6 +103,9 @@ dist
 # TernJS port file
 .tern-port
 
+# Environment Variables
+.env
+
 # Tonejs Samples https://github.com/nbrosowsky/tonejs-instruments
 samples/
 

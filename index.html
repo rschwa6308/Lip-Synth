@@ -4,6 +4,8 @@
 <title>Webcam Tester</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link rel="stylesheet" href="main.css">
+<script src="spotify-web-api.js"></script>
 <script src="webcam.js"></script>
 <script src="face-api.js"></script>
 <script src="face-api-usage.js"></script>
@@ -30,10 +32,23 @@
 				context.fillText('Loading...', 0, 0);
 			</script>
 		</div>
+		<div class="flex-column">
+			<h1 id="cur_note">
+				Choose A Song!
+			</h1>
+			<h2 id="next_note" style="color:gray">
+				.
+			</h2>
+		</div>
+		<h1 id="duration">
+			...
+		</h1>
 		<div id="controlBox" class="mt-auto d-block">
 			<!-- <input type="text" id="instIn" value="piano"> -->
 			<!-- <input type="number" id="noteIn" value="0">
 			<button id="stopNote">Stop</button> -->
+			<button id="spotify">Login</button>
+
 			<select id="scaleRoot">
 				<option value="C">C</option>
 				<option value="C#">C#</option>
@@ -79,7 +94,15 @@
 				<option value="pause">Pause</option>
 			</select>
 			<button id="flipWebcam" onclick="flipWebcam()">Flip Camera</button>
+			<form>
+				<label for="Song Name">Song Name</label><br>
+				<input type="text" id="songName" name="songName" value="">
+				<input id="submit_song" type="submit" value="Submit">
+			</form>
+			<button id="playSong">Play Song</button>
 		</div>
 	</div>
+	
 </body>
+<script src="spotify-api.js"></script>
 </html>

@@ -11,6 +11,9 @@ body {
     background-color: #A1E8AF;
 }
 
+#note_to_play {
+    height: 100%;
+}
 
 
 #videoElement {
