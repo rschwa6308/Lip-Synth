@@ -54,7 +54,6 @@ class Instrument {
 
     startNote(note) {
         if (this.isReady) {
-            console.log(note)
             this.inst.triggerAttack(note)
             this.isPlaying = true
         }
