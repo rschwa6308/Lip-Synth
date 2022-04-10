@@ -35,7 +35,7 @@ function drawNote(canvas, note, face, isDash=false, color="green", thicc=3) {
 
         ctx.beginPath()
         ctx.ellipse(midPt.x, midPt.y, Math.abs(noteHeight/2), mouthWidth, angle, 0, 2*Math.PI)
-        ctx.globalAlpha = 0.5
+        ctx.globalAlpha = 0.7
         ctx.strokeStyle = color
         ctx.lineWidth=thicc
         if(isDash){
@@ -69,14 +69,17 @@ async function analyzeFrame() {
 
         // draw detections onto canvas
         //faceapi.draw.drawDetections(canvas, resizedResult)
-        faceapi.draw.drawFaceLandmarks(canvas, resizedResult)
+
+        if(document.getElementById("show_face_tracking").checked) {
+            faceapi.draw.drawFaceLandmarks(canvas, resizedResult)
+        }
 
         if(isNoteInScale(nextNoteToIndicate, currentScale)) {
             drawNote(canvas, nextNoteToIndicate, resizedResult, true, "#0000ff", 2)
         }
 
         if(isNoteInScale(noteToIndicate, currentScale)) {
-            drawNote(canvas, noteToIndicate, resizedResult, false, "#ff0000")
+            drawNote(canvas, noteToIndicate, resizedResult, false, "green")
         }
         
 

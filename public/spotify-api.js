@@ -54,6 +54,8 @@ url += '&scope=' + encodeURIComponent(scope);
 url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
 url += '&state=' + encodeURIComponent(state);
 
+console.log(url);
+
 // Sets login button to have the appropriate URL
 document.getElementById("spotify").onclick = function () {
     location.href = url;

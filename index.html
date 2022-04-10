@@ -17,6 +17,9 @@
 	<h1 style="text-align: center">
 		Lip Synth
 	</h1>
+	<h6 style="text-align: center">
+		First press the login button and login to spotify. Choose the instrument of you're choosing. Type a song that you want to sing along to in the input field. Then press 'submit' to lock it in and press 'play song' when you're ready to start! Open your mouth to the size of the green ellipse to play along. The slider adjusts the sensitivity of the instrument. When a song is selected, the key is automatically updated.
+	</h6>
 	<div class="container d-flex flex-column align-items-start" style="height: 100vh;">
 		<div id="videoBox" class="container justify-content-center">
 			<video autoplay="true" id="videoElement" alt="No Video" class="rounded-16">
@@ -51,6 +54,8 @@
 			<!-- <input type="text" id="instIn" value="piano"> -->
 			<!-- <input type="number" id="noteIn" value="0">
 			<button id="stopNote">Stop</button> -->
+
+
 
 			<select id="scaleRoot">
 				<option value="C">C</option>
@@ -94,6 +99,8 @@
 			</select>
 			<input id="sensitivity" type="range" min="4" max="12" value="8">
 			<button id="repeat">Repeat Note</button>
+			<label>Face Tracking: </label>
+			<input type="checkbox" id="show_face_tracking", name="show face tracking">
 			<select id="pauseSelect">
 				<option value="play">Play</option>
 				<option value="pause">Pause</option>
@@ -101,15 +108,12 @@
 			<form>
 				<label for="Song Name">Song Name</label><br>
 				<input type="text" id="songName" name="songName" value="">
-				<button id="spotify">Login</button>
 			</form>
+			<button id="spotify">Login</button>
 			<button id="submit_song">Submit</button>
 			
 			<button id="playSong">Play Song</button>
 		</div>
-		<h4 style="text-align: right">
-			To Use Lip Sync: First press the login button and login to spotify. Choose the instrument of 
-		</h4>
 	</div>
 </body>
 <script src="spotify-api.js"></script>
