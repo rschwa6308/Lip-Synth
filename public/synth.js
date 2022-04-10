@@ -16,7 +16,7 @@ noteToNorm = (note, scale) => {
         if(loc == -1){
             return null;
         }
-        return ((loc/scale.length)*(1-VALUE_THRESHOLD) + CHANGE_THRESHOLD)
+        return (((loc+0.5)/scale.length)*(1-VALUE_THRESHOLD) + CHANGE_THRESHOLD)
     }
 }
 
