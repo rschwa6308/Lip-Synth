@@ -14,13 +14,27 @@
 <script src="synth.js"></script>
 <script src="instrumentHandler.js" defer></script>
 <body>
-	<h1 style="text-align: center">
-		Lip Synth
-	</h1>
-	<h6 style="text-align: center">
-		First press the login button and login to spotify. Choose the instrument of you're choosing. Type a song that you want to sing along to in the input field. Then press 'submit' to lock it in and press 'play song' when you're ready to start! Open your mouth to the size of the green ellipse to play along. The slider adjusts the sensitivity of the instrument. When a song is selected, the key is automatically updated.
-	</h6>
-	<div class="container d-flex flex-column align-items-start" style="height: 100vh;">
+	<div class="container d-flex flex-column align-items-center" style="height: 100vh;">
+		<h1 style="text-align: center">
+			Lip Synth
+		</h1>
+		<h6 style="text-align: center">
+			Open your mouth and hear the music!
+			You can see what note is being played in the top left of the video.
+			Try changing instruments and keys to find a sound you like!
+			Having trouble holding notes, or is there too few notes for your liking?
+			Use the slider adjusts the sensitivity of the instrument!
+			Also feel free to toggle on the face tracking indicators to see how it works.
+		</h6><h6 style="text-align: center">
+			Want to try learning a song?
+			Lip Synth can teach you!
+			First press the login button and login to spotify.
+			Type a song that you want to sing in the input field.
+			Then press 'submit' to lock it in and press 'play song' when you're ready to start!
+			Open your mouth to the size of the green ellipse to play along!
+			The dashed ellipse shows you what your next note will be.
+			Dont worry about changing key to match, when a song is selected, the key is automatically updated.
+		</h6>
 		<div id="videoBox" class="container justify-content-center">
 			<video autoplay="true" id="videoElement" alt="No Video" class="rounded-16">
 			</video>
@@ -76,15 +90,16 @@
 				<option value="minor">Minor</option>
 			</select>
 			<select id="instrument">
+				<option value="cello">Cello</option>
+				<option value="piano">Piano</option>
+				<option value="violin">Violin</option>
+				<option value="tuba">Tuba</option>
 				<option value="saxophone">Saxophone</option>
 				<option value="guitar-acoustic">Acoustic Guitar</option>
 				<option value="guitar-electric">Electric Guitar</option>
 				<option value="harp">Harp</option>
-				<option value="piano">Piano</option>
-				<option value="violin">Violin</option>
 				<option value="bass-electric">Electric Bass</option>
 				<option value="bassoon">Bassoon</option>
-				<option value="cello">Cello</option>
 				<option value="clarinet">Clarinet</option>
 				<option value="contrabass">Contrabass</option>
 				<option value="flute">Flute</option>
@@ -94,7 +109,6 @@
 				<option value="organ">Organ</option>
 				<option value="trombone">Trombone</option>
 				<option value="trumpet">Trumpet</option>
-				<option value="tuba">Tuba</option>
 				<option value="xylophone">Xylophone</option>
 			</select>
 			<input id="sensitivity" type="range" min="4" max="12" value="8">
