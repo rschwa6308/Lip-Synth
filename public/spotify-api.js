@@ -13,6 +13,8 @@ var note_index = -1;
 // Variable will store the data returned by the Spotify API.
 var song_data = null;
 
+var song_id = null;
+
 // Notes used for their index
 const spot_notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 const spot_scales = [["C", "D", "E", "F", "G", "A", "B"],
@@ -42,7 +44,7 @@ const client_id = '23053cd4642e4b9ba14357dc630df7c1';
 const redirect_uri = 'http://localhost:3000';
 const state = "1111111111111111";
 localStorage.setItem("stateKey", state);
-const scope = 'user-read-private user-read-email';
+const scope = 'user-read-private user-read-email app-remote-control streaming user-modify-playback-state';
 
 // Url that will authenticate user
 var url = 'https://accounts.spotify.com/authorize';
@@ -69,6 +71,7 @@ async function GetSongId(song_name){
         function(data){
             console.log(data.tracks.items[0].id);
             id = data.tracks.items[0].id;
+            song_id = id;
         },
         function(err){
             console.log('Something went wrong!', err);
@@ -193,10 +196,28 @@ async function get_key(){
     return null;
 }
 
-document.getElementById("playSong").onclick = function () {
+document.getElementById("playSong").onclick = async function () {
     if(song_data == null){
         alert("Please enter a song name");
         return;
     }
+    // spotifyApi.queue("spotify:track:" + song_id );
+    // var right_song = false;
+    // while(!right_song){
+    //     promise = spotifyApi.skipToNext();
+
+    //     await promise;
+
+    //     promise = spotifyApi.getMyCurrentPlayingTrack().then(
+    //         function(data) {
+    //             if(data.item.id == song_id){
+    //                 right_song = true;
+    //             }
+    //         }
+    //     );
+    //     await promise;
+    // }
+    
+    // spotifyApi.play();
     update_note();
 }

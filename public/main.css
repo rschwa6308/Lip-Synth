@@ -5,11 +5,25 @@ html {
     flex-wrap: nowrap;
 }
 
+h1 {
+    color: white
+}
+
+h2 {
+    color: rgb(234, 234, 234)
+}
+
+label {
+    color: white
+}
+
 body {
     width: 100%;
     height: 100%;
-    background-color: #A1E8AF;
+    background-color: #3a3a3a;
 }
+
+
 
 #note_to_play {
     height: 100%;
