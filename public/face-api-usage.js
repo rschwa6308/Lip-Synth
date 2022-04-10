@@ -12,7 +12,7 @@ function notifyFaceChanged(mouthHeight) {
     lastHeights.push(mouthHeight)
 }
 
-function drawNote(canvas, note, face, faceUnnorm, isDash=false, color="green", thicc=3) {
+function drawNote(canvas, note, face, isDash=false, color="green", thicc=3) {
     ctx = canvas.getContext("2d")
 
     pts = face.landmarks.getMouth()
@@ -35,6 +35,7 @@ function drawNote(canvas, note, face, faceUnnorm, isDash=false, color="green", t
 
         ctx.beginPath()
         ctx.ellipse(midPt.x, midPt.y, Math.abs(noteHeight/2), mouthWidth, angle, 0, 2*Math.PI)
+        ctx.globalAlpha = 0.5
         ctx.strokeStyle = color
         ctx.lineWidth=thicc
         if(isDash){
@@ -71,11 +72,11 @@ async function analyzeFrame() {
         //faceapi.draw.drawFaceLandmarks(canvas, resizedResult)
 
         if(isNoteInScale(nextNoteToIndicate, currentScale)) {
-            drawNote(canvas, nextNoteToIndicate, resizedResult, true, "cyan", 2)
+            drawNote(canvas, nextNoteToIndicate, resizedResult, true, "#0000ff", 2)
         }
 
         if(isNoteInScale(noteToIndicate, currentScale)) {
-            drawNote(canvas, noteToIndicate, resizedResult)
+            drawNote(canvas, noteToIndicate, resizedResult, false, "#ff0000")
         }
         
 
