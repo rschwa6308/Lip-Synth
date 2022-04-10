@@ -14,7 +14,19 @@ var note_index = -1;
 var song_data = null;
 
 // Notes used for their index
-const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+const spot_notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+const spot_scales = [["C", "D", "E", "F", "G", "A", "B"],
+                ["C#", "D#", "E#", "F#", "G#", "A#", "B#"],
+                ["D", "E", "F#", "G", "A", "B", "C#"], 
+                ["D#", "E#", "G", "G#", "A#", "B#", "D"],
+                ["E", "F#", "G#", "A", "B", "C#", "D#"], 
+                ["F", "G", "A", "A#", "C", "D", "E"],
+                ["F#", "G#", "A#", "B", "C#", "D#", "E#"],
+                ["G", "A", "B", "C", "D", "E", "F#"],
+                ["G#", "A#", "B#", "C#", "D#", "E#", "G"], 
+                ["A", "B", "C#", "D", "E", "F#", "G#"], 
+                ["#A", "#B", "D", "D#", "E#", "G", "A"], 
+                ["B", "C#", "D#", "E", "F#", "G#", "A#"]];
 
 // Will store the unwrapped data from the Spotify API.
 var data_timestamps = [];
@@ -91,24 +103,28 @@ async function getData(song) {
     // Waits for the request to finish
     await promise;
 
+    console.log(song_data.track.key);
+
     // Unwraps the data
     for(let i = 0; i < song_data.segments.length; i++){
         let seg = song_data.segments[i];
         // We  only keep segments with high confidence
-        if(seg.confidence > 0.8){
+        let max_value = 0;
+        let best_ind = 0;
+        for(let node_ind = 0; node_ind < 12; node_ind++){
+            if(seg.pitches[node_ind] > max_value){
+                max_value = seg.pitches[node_ind];
+                best_ind = node_ind;
+            }
+        }
+
+        let cur_note = spot_notes[best_ind];
+        if(seg.confidence > 0.8 && spot_scales[song_data.track.key].includes(cur_note)){
             // We keep track of timestamps, notes, and durations
             data_timestamps.push(seg.start);
+            data_notes.push(cur_note)
             
-            let max_value = 0;
-            let best_ind = 0;
-            for(let node_ind = 0; node_ind < 12; node_ind++){
-                if(seg.pitches[node_ind] > max_value){
-                    max_value = seg.pitches[node_ind];
-                    best_ind = node_ind;
-                }
-            }
-
-            data_notes.push(notes[best_ind]);
+           
             data_durations.push(seg.duration);
         }
     }
@@ -148,7 +164,7 @@ function get_filtered_notes(time_diff){
     return [filtered_notes, filtered_timestamps];
 }
 
-async function update_note_text(){
+async function update_note(){
     var bruh = get_filtered_notes(0.5);
     var new_notes = bruh[0];
     var new_timestamps = bruh[1];
@@ -156,6 +172,8 @@ async function update_note_text(){
     for(let i = 0; i < new_timestamps.length-1; i++){
         var cur_duration = (new_timestamps[i+1] - new_timestamps[i]) ;
         document.getElementById("cur_note").innerHTML = new_notes[i];
+        console.log(new_notes[i]);
+        noteToIndicate = new_notes[i];
         document.getElementById("next_note").innerHTML = new_notes[i+1];
         while(cur_duration > 0){
             p = new Promise(resolve => setTimeout(resolve, 10));
@@ -179,5 +197,5 @@ document.getElementById("playSong").onclick = function () {
         alert("Please enter a song name");
         return;
     }
-    update_note_text();
+    update_note();
 }

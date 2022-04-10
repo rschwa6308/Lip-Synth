@@ -28,12 +28,12 @@ function drawNote(canvas, note, face, faceUnnorm) {
     angle = Math.atan((pts[9].y - pts[3].y)/(pts[9].x - pts[3].x))
     mouthWidth = Math.sqrt((pts[16].y - pts[0].y)**2 + (pts[16].x - pts[0].x)**2)/2
     mouthHeight = Math.sqrt((pts[18].y - pts[14].y)**2 + (pts[18].x - pts[14].x)**2)/2
-    if (note && noteToNorm(note, currentScale)) {
+    if (note != null && noteToNorm(note, currentScale) != null) {
         faceHeight = face.detection.box.height
         noteHeight = noteToNorm(note, currentScale) * MAX_MOUTH_HEIGHT * faceHeight
 
         ctx.beginPath()
-        ctx.ellipse(midPt.x, midPt.y, noteHeight/2, mouthWidth, angle, 0, 2*Math.PI)
+        ctx.ellipse(midPt.x, midPt.y, Math.abs(noteHeight/2), mouthWidth, angle, 0, 2*Math.PI)
         ctx.strokeStyle = 'green'
         ctx.lineWidth=3
         ctx.closePath()
@@ -61,9 +61,11 @@ async function analyzeFrame() {
         context.scale(-1, 1);
 
         // draw detections onto canvas
-        faceapi.draw.drawDetections(canvas, resizedResult)
-        faceapi.draw.drawFaceLandmarks(canvas, resizedResult)
-        drawNote(canvas, noteToIndicate, resizedResult)
+        //faceapi.draw.drawDetections(canvas, resizedResult)
+        //faceapi.draw.drawFaceLandmarks(canvas, resizedResult)
+        if(isNoteInScale(noteToIndicate, currentScale)) {
+            drawNote(canvas, noteToIndicate, resizedResult)
+        }
         
 
         // compute relevant face metrics

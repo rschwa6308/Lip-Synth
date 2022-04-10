@@ -5,9 +5,19 @@ intToNote = (val, scale, offsets) => {
     note = scale[((val%len)+len)%len]
     return note + (3 + Math.floor((val)/len) + offsets[((val%len)+len)%len])
 }
+
+function isNoteInScale(note, scale){
+    return scale.findIndex((elem) => note == elem) != -1;
+}
+
 noteToNorm = (note, scale) => {
-    loc = scale.findIndex((elem) => note == elem)
-    return ((loc/scale.length)*(1-VALUE_THRESHOLD) + CHANGE_THRESHOLD)
+    if(note != null){
+        loc = scale.findIndex((elem) => note == elem)
+        if(loc == -1){
+            return null;
+        }
+        return ((loc/scale.length)*(1-VALUE_THRESHOLD) + CHANGE_THRESHOLD)
+    }
 }
 
 function getMusicalKey(startNote, isMajor) {
