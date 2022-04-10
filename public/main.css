@@ -15,6 +15,9 @@ body {
     height: 100%;
 }
 
+#videoBox {
+    display: grid;
+}
 
 #videoElement {
     max-height: 10;
@@ -22,4 +25,19 @@ body {
     transform: rotateY(180deg);
     -webkit-transform:rotateY(180deg); /* Safari and Chrome */
     -moz-transform:rotateY(180deg); /* Firefox */
+    grid-row-start: 1;
+    grid-column-start: 1;
+}
+
+#noteBeingPlayed, #overlay {
+    grid-row-start: 1;
+    grid-column-start: 1;
+}
+
+#overlay {
+    z-index: 50;
+}
+
+#noteBeingPlayed {
+    z-index: 100;
 }

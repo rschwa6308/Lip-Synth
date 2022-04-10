@@ -47,7 +47,7 @@ function drawNote(canvas, note, face, faceUnnorm, isDash=false, color="green", t
     }
 }
 
-const MAX_MOUTH_HEIGHT = 0.20       // 20% of face height seems to be maximum
+const MAX_MOUTH_HEIGHT = 0.25       // 20% of face height seems to be maximum
 
 async function analyzeFrame() {
     const frame = document.getElementById("videoElement")
@@ -68,7 +68,7 @@ async function analyzeFrame() {
 
         // draw detections onto canvas
         //faceapi.draw.drawDetections(canvas, resizedResult)
-        //faceapi.draw.drawFaceLandmarks(canvas, resizedResult)
+        faceapi.draw.drawFaceLandmarks(canvas, resizedResult)
 
         if(isNoteInScale(nextNoteToIndicate, currentScale)) {
             drawNote(canvas, nextNoteToIndicate, resizedResult, true, "cyan", 2)

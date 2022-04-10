@@ -14,11 +14,12 @@
 <script src="synth.js"></script>
 <script src="instrumentHandler.js" defer></script>
 <body>
-	<div class="container d-flex flex-column" style="height: 100vh;">
-		<div id="videoBox" class="container text-center">
-			<video autoplay="true" id="videoElement" alt="No Video" style="position: absolute">
+	<div class="container d-flex flex-column align-items-start" style="height: 100vh;">
+		<div id="videoBox" class="container justify-content-center">
+			<video autoplay="true" id="videoElement" alt="No Video" class="rounded-16">
 			</video>
-			<canvas id="overlay" style="position: absolute"/>
+			<canvas id="overlay"></canvas>
+			<h1 id="noteBeingPlayed" style="color: white">Note: </h1>
 			<script>
 				var canvas = document.getElementById("overlay");
 				var context = canvas.getContext('2d');
@@ -47,7 +48,6 @@
 			<!-- <input type="text" id="instIn" value="piano"> -->
 			<!-- <input type="number" id="noteIn" value="0">
 			<button id="stopNote">Stop</button> -->
-			<button id="spotify">Login</button>
 
 			<select id="scaleRoot">
 				<option value="C">C</option>
@@ -89,15 +89,17 @@
 				<option value="tuba">Tuba</option>
 				<option value="xylophone">Xylophone</option>
 			</select>
+			<input id="sensitivity" type="range" min="4" max="12" value="8">
+			<button id="repeat">Repeat Note</button>
 			<select id="pauseSelect">
 				<option value="play">Play</option>
 				<option value="pause">Pause</option>
 			</select>
-			<button id="flipWebcam" onclick="flipWebcam()">Flip Camera</button>
 			<form>
 				<label for="Song Name">Song Name</label><br>
 				<input type="text" id="songName" name="songName" value="">
 				<input id="submit_song" type="submit" value="Submit">
+				<button id="spotify">Login</button>
 			</form>
 			<button id="playSong">Play Song</button>
 		</div>

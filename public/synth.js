@@ -67,7 +67,8 @@ class Instrument {
             if (!this.isPlaying) {
                 this.startNote(note)
             } else {
-                console.log(note)
+                // console.log(note)
+                document.getElementById("noteBeingPlayed").innerHTML = "Note: " + note;
                 if (this.inst.setNote) {
                     this.inst.setNote(note)
                 } else {
@@ -80,6 +81,7 @@ class Instrument {
     stopNote() {
         if (this.isReady) {
             this.inst.triggerRelease(this.currentNote)
+            document.getElementById("noteBeingPlayed").innerHTML = "Note: ";
             this.currentNote = null
             this.isPlaying = false
         }

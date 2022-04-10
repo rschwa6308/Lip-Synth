@@ -1,17 +1,17 @@
 // Global Variables
 instruments = [] // Keeps track of currently loaded instruments
-currentScale = null;
-currentScaleOffset = null;
+currentScale = null
+currentScaleOffset = null
 inst = null
 audioPause = false
-
-NUM_NOTES_ON_FACE = 8
+numNotesInRange = null
 VALUE_THRESHOLD = 0.1
-CHANGE_THRESHOLD = 0.05
+CHANGE_THRESHOLD = 0.15
 
 document.addEventListener("DOMContentLoaded", function(){
     reloadInst()
     reloadKey()
+    reloadSensitivity()
     // Note Change Action
     // document.getElementById('noteIn').onchange = function() {
     //     noteInt = document.getElementById("noteIn").value
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function(){
             detail = obj.detail
             // console.log(val)
             if (Math.abs(detail.change) <= CHANGE_THRESHOLD) {
-                note = intToNote(Math.floor((NUM_NOTES_ON_FACE-1)*(detail.value-VALUE_THRESHOLD)/(1-VALUE_THRESHOLD)), currentScale, currentScaleOffset)
+                note = intToNote(Math.floor((numNotesInRange-1)*(detail.value-VALUE_THRESHOLD)/(1-VALUE_THRESHOLD)), currentScale, currentScaleOffset)
                 if (detail.value != null && detail.value < VALUE_THRESHOLD) {
                     inst.stopNote()
                 } else {
@@ -48,6 +48,12 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById('pauseSelect').onchange = function() {
         audioPause = document.getElementById('pauseSelect').value != "play"
     }
+    document.getElementById('repeat').onclick = function() {
+        if (!audioPause && inst.currentNote != null) {
+            inst.playNote(inst.currentNote)
+        }
+    }
+    document.getElementById('sensitivity').onchange = reloadSensitivity
 });
 
 function reloadKey() {
@@ -63,3 +69,6 @@ function reloadInst() {
     inst = new Instrument(instName)
 }
 
+function reloadSensitivity(){
+    numNotesInRange = document.getElementById('sensitivity').value
+}
