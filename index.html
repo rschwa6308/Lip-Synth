@@ -32,6 +32,17 @@
 				context.fillText('Loading...', 0, 0);
 			</script>
 		</div>
+		<div class="flex-column">
+			<h1 id="cur_note">
+				Choose A Song!
+			</h1>
+			<h2 id="next_note" style="color:gray">
+				.
+			</h2>
+		</div>
+		<h1 id="duration">
+			...
+		</h1>
 		<div id="controlBox" class="mt-auto d-block">
 			<!-- <input type="text" id="instIn" value="piano"> -->
 			<!-- <input type="number" id="noteIn" value="0">
@@ -82,8 +93,15 @@
 				<option value="play">Play</option>
 				<option value="pause">Pause</option>
 			</select>
+			<form>
+				<label for="Song Name">Song Name</label><br>
+				<input type="text" id="songName" name="songName" value="">
+				<input id="submit_song" type="submit" value="Submit">
+			</form>
+			<button id="playSong">Play Song</button>
 		</div>
 	</div>
+	
 </body>
 <script src="spotify-api.js"></script>
 </html>

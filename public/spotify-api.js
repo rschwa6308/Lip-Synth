@@ -7,8 +7,8 @@ String.prototype.replaceAt = function(index, replacement) {
 var last_queried_timestamp = null;
 var last_returned_timestamp_index = 0;
 
-// Song to be analyzed
-const song = '3Qm86XLflmIXVm1wcwkgDK';
+// Keeps track of current note
+var note_index = -1;
 
 // Variable will store the data returned by the Spotify API.
 var song_data = null;
@@ -51,8 +51,33 @@ queryString = queryString.replaceAt(0, '?');
 const urlsearch = new URLSearchParams(queryString);
 spotifyApi.setAccessToken(urlsearch.get('access_token'));
 
+async function GetSongId(song_name){
+    var id = null;
+    promise = spotifyApi.searchTracks(song_name, {limit: 5}).then(
+        function(data){
+            console.log(data.tracks.items[0].id);
+            id = data.tracks.items[0].id;
+        },
+        function(err){
+            console.log('Something went wrong!', err);
+        }
+    );
+
+    await promise
+
+    console.log(id);
+    getData(id);
+}
+
+// Gets desired song from user
+document.getElementById("submit_song").onclick = function () {
+    const song_name = document.getElementById("songName").value;
+    GetSongId(song_name);
+    
+}
+
 // Collects data from the Spotify API
-async function getData() {
+async function getData(song) {
     // Sends official request and stores data
     promise = spotifyApi.getAudioAnalysisForTrack(song).then(
     function(data) {
@@ -70,7 +95,7 @@ async function getData() {
     for(let i = 0; i < song_data.segments.length; i++){
         let seg = song_data.segments[i];
         // We  only keep segments with high confidence
-        if(seg.confidence > 0.6){
+        if(seg.confidence > 0.8){
             // We keep track of timestamps, notes, and durations
             data_timestamps.push(seg.start);
             
@@ -82,18 +107,12 @@ async function getData() {
                     best_ind = node_ind;
                 }
             }
-            console.log(seg.pitches);
-            console.log("");
 
             data_notes.push(notes[best_ind]);
             data_durations.push(seg.duration);
         }
     }
-
-    console.log(data_notes);
 }
-
-getData();
 
 // Will return the next note and duration to be played given a timestamp
 async function get_note(value){
@@ -114,4 +133,51 @@ async function get_note(value){
 // Returns all notes and durations for the given song
 async function get_all_notes(){
     return [data_notes, data_durations];
+}
+
+function get_filtered_notes(time_diff){
+    var filtered_notes = [data_notes[0]];
+    var filtered_timestamps = [data_timestamps[0]];
+
+    for(let i = 0; i < data_timestamps.length; i++){
+        if(data_timestamps[i] - time_diff > filtered_timestamps[filtered_timestamps.length-1]){
+            filtered_notes.push(data_notes[i]);
+            filtered_timestamps.push(data_timestamps[i]);
+        }
+    }
+    return [filtered_notes, filtered_timestamps];
+}
+
+async function update_note_text(){
+    var bruh = get_filtered_notes(0.5);
+    var new_notes = bruh[0];
+    var new_timestamps = bruh[1];
+
+    for(let i = 0; i < new_timestamps.length-1; i++){
+        var cur_duration = (new_timestamps[i+1] - new_timestamps[i]) ;
+        document.getElementById("cur_note").innerHTML = new_notes[i];
+        document.getElementById("next_note").innerHTML = new_notes[i+1];
+        while(cur_duration > 0){
+            p = new Promise(resolve => setTimeout(resolve, 10));
+            await p;
+            cur_duration -= .01;
+            cur_duration = Math.round(cur_duration * 100) / 100;
+            document.getElementById("duration").innerHTML = cur_duration;
+        }
+    }
+}
+
+async function get_key(){
+    if(song_data != null){
+        return song_data.track.key;
+    }
+    return null;
+}
+
+document.getElementById("playSong").onclick = function () {
+    if(song_data == null){
+        alert("Please enter a song name");
+        return;
+    }
+    update_note_text();
 }
